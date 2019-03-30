@@ -23,8 +23,14 @@ def frequency(filename):
     words = re.split(r'[^a-zA-Z0-9-]+', content)
     dictory = {}
     
+    # stop words
+    try: 
+        stop_words = stopwords.words('romanian')
+    except:
+        import nltk
+        nltk.download('stopwords')
+        stop_words = stopwords.words('romanian')
     # stem 
-    stop_words = stopwords.words('romanian')
     stemmer = RomanianStemmer(ignore_stopwords=True)
     for w in words:
         w = w.lower()
@@ -50,6 +56,7 @@ def plotword(words, num=10):
     apar = [w[1] for w in words[:num]][::-1]
     pos = range(num)
     
+    plt.figure(1)
     plt.barh(pos, apar, align='center')
     plt.yticks(pos, cuv)
     plt.xlabel("Aparitii")
@@ -68,9 +75,10 @@ def wordcloud(words):
                background_color="white",
                margin=5)
     wc.generate_from_frequencies(words)
-    plt.figure()
+    plt.figure(2)
     plt.imshow(wc)
     plt.axis("off")
+    plt.show()
     
 # main 
 if __name__ == "__main__":
